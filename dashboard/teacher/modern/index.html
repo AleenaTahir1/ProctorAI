@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProctorAI - Modern Teacher Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <span class="logo-text">ProctorAI</span>
+                </div>
+                <button class="collapse-btn" id="collapse-sidebar">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-section="dashboard">
+                        <a href="#">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-section="quizzes">
+                        <a href="#">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Quizzes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-section="create">
+                        <a href="#">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Create Quiz</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-section="submissions">
+                        <a href="#">
+                            <i class="fas fa-tasks"></i>
+                            <span>Submissions</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-section="analytics">
+                        <a href="#">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-section="settings">
+                        <a href="#">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="../../index.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <div class="notifications">
+                        <button class="icon-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge">2</span>
+                        </button>
+                    </div>
+                    <div class="user-menu">
+                        <button class="user-btn">
+                            <img src="../../img/user-placeholder.png" alt="Teacher">
+                            <span>Dr. Sarah Khan</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="content-container">
+                <!-- Quizzes Section -->
+                <div class="content-section" id="quizzes-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Quizzes</h2>
+                        <button class="btn primary" id="create-quiz-btn">
+                            <i class="fas fa-plus"></i> Create Quiz
+                        </button>
+                    </div>
+                    
+                    <!-- Filter Bar -->
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select">
+                                <option value="all">All Quizzes</option>
+                                <option value="active">Active</option>
+                                <option value="draft">Draft</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                            <select class="filter-select">
+                                <option value="all">All Courses</option>
+                                <option value="cs101">CS101</option>
+                                <option value="cs201">CS201</option>
+                                <option value="math202">MATH202</option>
+                            </select>
+                        </div>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search quizzes...">
+                        </div>
+                    </div>
+                    
+                    <!-- Quizzes Table -->
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Quiz Title</th>
+                                    <th>Course</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Submissions</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Midterm Exam: Data Structures</td>
+                                    <td>CS201</td>
+                                    <td>May 15, 2023</td>
+                                    <td><span class="status active">Active</span></td>
+                                    <td>24/35</td>
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Final Quiz: Algorithms</td>
+                                    <td>CS201</td>
+                                    <td>June 10, 2023</td>
+                                    <td><span class="status scheduled">Scheduled</span></td>
+                                    <td>0/35</td>
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Quiz 3: Linear Algebra</td>
+                                    <td>MATH202</td>
+                                    <td>April 28, 2023</td>
+                                    <td><span class="status completed">Completed</span></td>
+                                    <td>32/32</td>
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-chart-bar"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-download"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Programming Basics</td>
+                                    <td>CS101</td>
+                                    <td>May 5, 2023</td>
+                                    <td><span class="status draft">Draft</span></td>
+                                    <td>-</td>
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination">
+                        <button class="btn outline small"><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn outline small active">1</button>
+                        <button class="btn outline small">2</button>
+                        <button class="btn outline small">3</button>
+                        <button class="btn outline small"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                    
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="content-section active">
+                    <div class="section-header">
+                        <h2>Overview</h2>
+                        <div class="date-filter">
+                            <span>This Month</span>
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-content">
+                                <div class="stat-card-info">
+                                    <h3>Active Quizzes</h3>
+                                    <p class="stat-value">8</p>
+                                </div>
+                                <div class="stat-card-icon blue">
+                                    <i class="fas fa-clipboard-check"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="trend positive">
+                                    <i class="fas fa-arrow-up"></i> 12%
+                                </span>
+                                <span class="period">vs last month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-card-content">
+                                <div class="stat-card-info">
+                                    <h3>Total Students</h3>
+                                    <p class="stat-value">248</p>
+                                </div>
+                                <div class="stat-card-icon green">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="trend positive">
+                                    <i class="fas fa-arrow-up"></i> 8%
+                                </span>
+                                <span class="period">vs last month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-card-content">
+                                <div class="stat-card-info">
+                                    <h3>Submissions</h3>
+                                    <p class="stat-value">1,024</p>
+                                </div>
+                                <div class="stat-card-icon purple">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="trend positive">
+                                    <i class="fas fa-arrow-up"></i> 24%
+                                </span>
+                                <span class="period">vs last month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-card-content">
+                                <div class="stat-card-info">
+                                    <h3>Avg. Score</h3>
+                                    <p class="stat-value">76%</p>
+                                </div>
+                                <div class="stat-card-icon orange">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-footer">
+                                <span class="trend negative">
+                                    <i class="fas fa-arrow-down"></i> 3%
+                                </span>
+                                <span class="period">vs last month</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity and Upcoming Quizzes -->
+                    <div class="dashboard-grid">
+                        <div class="card recent-activity">
+                            <div class="card-header">
+                                <h3>Recent Activity</h3>
+                                <button class="btn-text">View All</button>
+                            </div>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon green">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>Quiz Completed</h4>
+                                        <p>Database Systems Quiz - 42 submissions</p>
+                                        <span class="activity-time">Today, 10:30 AM</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="activity-item">
+                                    <div class="activity-icon blue">
+                                        <i class="fas fa-plus-circle"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>New Quiz Created</h4>
+                                        <p>Operating Systems - Final Assessment</p>
+                                        <span class="activity-time">Yesterday, 2:15 PM</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="activity-item">
+                                    <div class="activity-icon orange">
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                    <div class="activity-details">
+                                        <h4>Quiz Edited</h4>
+                                        <p>Artificial Intelligence - Mid Term</p>
+                                        <span class="activity-time">Yesterday, 11:20 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card upcoming-quizzes">
+                            <div class="card-header">
+                                <h3>Upcoming Quizzes</h3>
+                                <button class="btn-text">View All</button>
+                            </div>
+                            <div class="quiz-list">
+                                <div class="quiz-item">
+                                    <div class="quiz-info">
+                                        <h4>Data Structures Quiz</h4>
+                                        <p>CS-301 • 25 questions • 45 minutes</p>
+                                    </div>
+                                    <div class="quiz-date">
+                                        <p class="date">Today</p>
+                                        <p class="time">2:00 PM</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="quiz-item">
+                                    <div class="quiz-info">
+                                        <h4>Computer Networks</h4>
+                                        <p>CS-405 • 30 questions • 60 minutes</p>
+                                    </div>
+                                    <div class="quiz-date">
+                                        <p class="date">Tomorrow</p>
+                                        <p class="time">10:00 AM</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="quiz-item">
+                                    <div class="quiz-info">
+                                        <h4>Software Engineering</h4>
+                                        <p>CS-402 • 20 questions • 40 minutes</p>
+                                    </div>
+                                    <div class="quiz-date">
+                                        <p class="date">Jul 18</p>
+                                        <p class="time">11:30 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Other sections will be added in the JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

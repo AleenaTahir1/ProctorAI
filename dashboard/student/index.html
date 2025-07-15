@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProctorAI - Student Dashboard</title>
+    <link rel="stylesheet" href="student.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo-placeholder"></div>
+                <h2>ProctorAI</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="#dashboard"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+                <li><a href="#upcoming-quizzes"><i class="fas fa-clipboard-list"></i> <span>Upcoming Quizzes</span></a></li>
+                <li><a href="#take-quiz"><i class="fas fa-pen"></i> <span>Take Quiz</span></a></li>
+                <li><a href="#results"><i class="fas fa-chart-bar"></i> <span>Results</span></a></li>
+                <li><a href="#settings"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+                <li class="logout"><a href="../../index.html"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="user-info">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user">
+                        <img src="../../img/user-placeholder.png" alt="Student">
+                        <span>Ali Ahmed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="dashboard-section active">
+                <h1>Student Dashboard</h1>
+                <p class="subtitle">Welcome back, Ali! Here's an overview of your academic activities.</p>
+                
+                <!-- Stats Cards -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>5</h3>
+                            <p>Upcoming Quizzes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>12</h3>
+                            <p>Completed Quizzes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>2</h3>
+                            <p>Due Today</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>85%</h3>
+                            <p>Average Score</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon green">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Quiz Completed</h4>
+                                <p>Data Structures Quiz - Score: 92%</p>
+                                <span class="time">Today, 10:30 AM</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon blue">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>New Quiz Available</h4>
+                                <p>Database Management Systems - Due: July 15, 2025</p>
+                                <span class="time">Yesterday, 3:45 PM</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon orange">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Quiz Reminder</h4>
+                                <p>Operating Systems Quiz - Due in 2 hours</p>
+                                <span class="time">Today, 2:15 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Quizzes Section -->
+            <div id="upcoming-quizzes-section" class="dashboard-section">
+                <h1>Upcoming Quizzes</h1>
+                <p class="subtitle">All your scheduled quizzes are listed here.</p>
+                
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search quizzes...">
+                    </div>
+                    <div class="filter-options">
+                        <select>
+                            <option value="all">All Courses</option>
+                            <option value="data-structures">Data Structures</option>
+                            <option value="database">Database Management</option>
+                            <option value="os">Operating Systems</option>
+                            <option value="ai">Artificial Intelligence</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quiz-list">
+                    <div class="quiz-card upcoming">
+                        <span class="quiz-status">Today</span>
+                        <h3>Operating Systems Quiz 2</h3>
+                        <div class="quiz-info">
+                            <i class="fas fa-clock"></i> 30 minutes
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-calendar"></i> July 13, 2025 - 4:00 PM
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-list-ol"></i> 20 questions
+                        </div>
+                        <div class="quiz-actions">
+                            <button class="btn primary">Start Quiz</button>
+                        </div>
+                    </div>
+                    <div class="quiz-card upcoming">
+                        <span class="quiz-status">Today</span>
+                        <h3>Data Structures Lab Test</h3>
+                        <div class="quiz-info">
+                            <i class="fas fa-clock"></i> 45 minutes
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-calendar"></i> July 13, 2025 - 6:30 PM
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-list-ol"></i> 15 questions
+                        </div>
+                        <div class="quiz-actions">
+                            <button class="btn primary">Start Quiz</button>
+                        </div>
+                    </div>
+                    <div class="quiz-card upcoming">
+                        <span class="quiz-status">Tomorrow</span>
+                        <h3>Database Management Systems</h3>
+                        <div class="quiz-info">
+                            <i class="fas fa-clock"></i> 60 minutes
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-calendar"></i> July 14, 2025 - 10:00 AM
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-list-ol"></i> 30 questions
+                        </div>
+                        <div class="quiz-actions">
+                            <button class="btn secondary">View Details</button>
+                        </div>
+                    </div>
+                    <div class="quiz-card upcoming">
+                        <span class="quiz-status">This Week</span>
+                        <h3>Artificial Intelligence Mid-Term</h3>
+                        <div class="quiz-info">
+                            <i class="fas fa-clock"></i> 90 minutes
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-calendar"></i> July 15, 2025 - 2:00 PM
+                        </div>
+                        <div class="quiz-info">
+                            <i class="fas fa-list-ol"></i> 40 questions
+                        </div>
+                        <div class="quiz-actions">
+                            <button class="btn secondary">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Take Quiz Section -->
+            <div id="take-quiz-section" class="dashboard-section">
+                <h1>Take Quiz</h1>
+                <p class="subtitle">Enter the quiz code provided by your instructor to start a quiz.</p>
+                
+                <div class="quiz-code-container">
+                    <div class="form-group">
+                        <label>Quiz Code</label>
+                        <div class="code-input-container">
+                            <input type="text" placeholder="Enter quiz code" class="quiz-code-input">
+                            <button class="btn primary">Start Quiz</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-quizzes">
+                    <h2>Available Quizzes</h2>
+                    <div class="quiz-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Quiz Name</th>
+                                    <th>Course</th>
+                                    <th>Duration</th>
+                                    <th>Due Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Operating Systems Quiz 2</td>
+                                    <td>CS301 - Operating Systems</td>
+                                    <td>30 minutes</td>
+                                    <td>Today, 4:00 PM</td>
+                                    <td><button class="btn primary small">Start</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Data Structures Lab Test</td>
+                                    <td>CS201 - Data Structures</td>
+                                    <td>45 minutes</td>
+                                    <td>Today, 6:30 PM</td>
+                                    <td><button class="btn primary small">Start</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Database Management Systems</td>
+                                    <td>CS305 - Database Systems</td>
+                                    <td>60 minutes</td>
+                                    <td>Jul 14, 10:00 AM</td>
+                                    <td><button class="btn secondary small">View</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Artificial Intelligence Mid-Term</td>
+                                    <td>CS401 - Artificial Intelligence</td>
+                                    <td>90 minutes</td>
+                                    <td>Jul 15, 2:00 PM</td>
+                                    <td><button class="btn secondary small">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="dashboard-section">
+                <h1>Quiz Results</h1>
+                <p class="subtitle">View your performance in previous quizzes.</p>
+                
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search results...">
+                    </div>
+                    <div class="filter-options">
+                        <select>
+                            <option value="all">All Courses</option>
+                            <option value="data-structures">Data Structures</option>
+                            <option value="database">Database Management</option>
+                            <option value="os">Operating Systems</option>
+                            <option value="ai">Artificial Intelligence</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="results-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Quiz Name</th>
+                                <th>Course</th>
+                                <th>Date</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Data Structures Quiz</td>
+                                <td>CS201 - Data Structures</td>
+                                <td>Today, 10:30 AM</td>
+                                <td>92%</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td><button class="btn secondary small">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Operating Systems Quiz 1</td>
+                                <td>CS301 - Operating Systems</td>
+                                <td>Jul 10, 2025</td>
+                                <td>85%</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td><button class="btn secondary small">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Database Normalization</td>
+                                <td>CS305 - Database Systems</td>
+                                <td>Jul 5, 2025</td>
+                                <td>78%</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td><button class="btn secondary small">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>AI Fundamentals</td>
+                                <td>CS401 - Artificial Intelligence</td>
+                                <td>Jun 28, 2025</td>
+                                <td>88%</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td><button class="btn secondary small">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="performance-chart">
+                    <h2>Performance Overview</h2>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            <!-- This would be replaced with an actual chart in a real implementation -->
+                            <div class="chart-bars">
+                                <div class="chart-bar" style="height: 92%;" data-value="92%">
+                                    <span class="chart-label">DS</span>
+                                </div>
+                                <div class="chart-bar" style="height: 85%;" data-value="85%">
+                                    <span class="chart-label">OS</span>
+                                </div>
+                                <div class="chart-bar" style="height: 78%;" data-value="78%">
+                                    <span class="chart-label">DB</span>
+                                </div>
+                                <div class="chart-bar" style="height: 88%;" data-value="88%">
+                                    <span class="chart-label">AI</span>
+                                </div>
+                            </div>
+                            <div class="chart-axis">
+                                <div class="axis-label">100%</div>
+                                <div class="axis-label">75%</div>
+                                <div class="axis-label">50%</div>
+                                <div class="axis-label">25%</div>
+                                <div class="axis-label">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="dashboard-section">
+                <h1>Settings</h1>
+                <p class="subtitle">Manage your account and preferences.</p>
+                
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <h2>Profile Information</h2>
+                        <div class="profile-info">
+                            <div class="profile-image">
+                                <img src="../../img/user-placeholder.png" alt="Student">
+                                <button class="btn secondary small">Change Photo</button>
+                            </div>
+                            <div class="profile-details">
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" value="Ali Ahmed" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" value="student.ali@nutech.edu.pk" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Student ID</label>
+                                    <input type="text" value="CS-2023-042" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <input type="text" value="Computer Science" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h2>Notification Preferences</h2>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <label for="email-notifications">Email Notifications</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="quiz-reminders" checked>
+                                <label for="quiz-reminders">Quiz Reminders</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="result-notifications" checked>
+                                <label for="result-notifications">Result Notifications</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="system-updates">
+                                <label for="system-updates">System Updates</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h2>Device & Security</h2>
+                        <div class="form-group">
+                            <label>Camera Access</label>
+                            <select>
+                                <option value="allow">Allow during quizzes</option>
+                                <option value="ask">Ask every time</option>
+                                <option value="deny">Deny (Not recommended)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Microphone Access</label>
+                            <select>
+                                <option value="allow">Allow during quizzes</option>
+                                <option value="ask">Ask every time</option>
+                                <option value="deny">Deny (Not recommended)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Screen Sharing</label>
+                            <select>
+                                <option value="allow">Allow during quizzes</option>
+                                <option value="ask">Ask every time</option>
+                                <option value="deny">Deny (Not recommended)</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn primary">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="student.js"></script>
+</body>
+</html>

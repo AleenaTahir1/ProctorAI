@@ -95,28 +95,44 @@ function updatePasswordStrength() {
 }
 
 // Form submission handlers
-loginForm.addEventListener("submit", function(e) {
+document.getElementById("loginForm").addEventListener("submit", function(e) {
     e.preventDefault();
     
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPassword").value;
     
-    if (password.length < 8) {
-        loginPasswordError.textContent = "Password must be at least 8 characters long";
-        loginPasswordError.classList.add("error-message");
+    // Basic validation
+    if (!email || !password) {
+        document.getElementById("loginError").textContent = "Please enter both email and password";
+        document.getElementById("loginError").classList.add("error-message");
         return;
     }
     
-    loginPasswordError.textContent = "";
-    loginPasswordError.classList.remove("error-message");
+    // Check if email is from nutech.edu.pk domain
+    if (!email.endsWith("@nutech.edu.pk")) {
+        document.getElementById("loginError").textContent = "Please use your university email (@nutech.edu.pk)";
+        document.getElementById("loginError").classList.add("error-message");
+        return;
+    }
     
-    // Simulate login - in a real app, this would be an API call
-    console.log("Login attempt:", { email });
+    // In a real application, you would validate against a database
+    // For demo purposes, we'll use a simple role check based on email prefix
+    const isTeacher = email.startsWith("faculty.") || email.startsWith("teacher.") || email.startsWith("dr.");
     
-    // Simulate successful login
-    alert("Login successful! Redirecting to dashboard...");
-    // In a real app, redirect to dashboard or show loading spinner
-    // window.location.href = "dashboard.html";
+    // Show success message
+    document.getElementById("loginError").textContent = "Login successful! Redirecting...";
+    document.getElementById("loginError").classList.remove("error-message");
+    document.getElementById("loginError").classList.add("success-message");
+    
+    // Redirect based on role after a short delay
+    setTimeout(() => {
+        if (isTeacher) {
+            window.location.href = "dashboard/teacher/modern/index.html";
+        } else {
+            // Redirect to student dashboard
+            window.location.href = "dashboard/student/index.html";
+        }
+    }, 1000);
 });
 
 signupForm.addEventListener("submit", function(e) {

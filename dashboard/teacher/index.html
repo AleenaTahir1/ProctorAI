@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProctorAI - Teacher Dashboard</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="./teacher.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <div class="logo-placeholder"></div>
+                <h2>ProctorAI</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="#dashboard"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="#quizzes"><i class="fas fa-clipboard-list"></i> Quizzes</a>
+                </li>
+                <li>
+                    <a href="#create-quiz"><i class="fas fa-plus-circle"></i> Create Quiz</a>
+                </li>
+                <li>
+                    <a href="#submissions"><i class="fas fa-tasks"></i> Submissions</a>
+                </li>
+                <li>
+                    <a href="#reports"><i class="fas fa-chart-bar"></i> Reports</a>
+                </li>
+                <li>
+                    <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                </li>
+                <li class="logout">
+                    <a href="../../index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="user-info">
+                    <span class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </span>
+                    <div class="user">
+                        <img src="../../img/user-placeholder.png" alt="User">
+                        <span>Dr. Ahmed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Overview Section -->
+            <div class="dashboard-section active" id="dashboard-section">
+                <h1>Welcome, Dr. Ahmed</h1>
+                <p class="subtitle">Teacher Dashboard</p>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>12</h3>
+                            <p>Active Quizzes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>156</h3>
+                            <p>Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>43</h3>
+                            <p>Pending Reviews</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>8</h3>
+                            <p>Upcoming Quizzes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon green">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Quiz Published</h4>
+                                <p>Data Structures Mid-Term Quiz</p>
+                                <span class="time">Today, 2:30 PM</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon blue">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Quiz Edited</h4>
+                                <p>Artificial Intelligence Final</p>
+                                <span class="time">Yesterday, 11:15 AM</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon orange">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Quiz Scheduled</h4>
+                                <p>Computer Networks Quiz #3</p>
+                                <span class="time">Jul 12, 2025, 9:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Quiz Section -->
+            <div class="dashboard-section" id="create-quiz-section">
+                <h1>Create New Quiz</h1>
+                <p class="subtitle">Set up a new quiz for your students</p>
+
+                <div class="quiz-form">
+                    <div class="form-group">
+                        <label for="quiz-title">Quiz Title</label>
+                        <input type="text" id="quiz-title" placeholder="Enter quiz title">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quiz-description">Description</label>
+                        <textarea id="quiz-description" placeholder="Enter quiz description"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="quiz-duration">Duration (minutes)</label>
+                            <input type="number" id="quiz-duration" min="5" placeholder="30">
+                        </div>
+                        <div class="form-group half">
+                            <label for="quiz-points">Total Points</label>
+                            <input type="number" id="quiz-points" min="1" placeholder="100">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="quiz-date">Available Date</label>
+                            <input type="date" id="quiz-date">
+                        </div>
+                        <div class="form-group half">
+                            <label for="quiz-time">Available Time</label>
+                            <input type="time" id="quiz-time">
+                        </div>
+                    </div>
+
+                    <div class="question-container">
+                        <h3>Questions</h3>
+                        <div class="question-list" id="question-list">
+                            <!-- Question 1 -->
+                            <div class="question-item">
+                                <div class="question-header">
+                                    <h4>Question 1</h4>
+                                    <div class="question-actions">
+                                        <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Question Text</label>
+                                    <textarea placeholder="Enter your question"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Question Type</label>
+                                    <select class="question-type">
+                                        <option value="mcq">Multiple Choice</option>
+                                        <option value="text">Text Answer</option>
+                                        <option value="truefalse">True/False</option>
+                                    </select>
+                                </div>
+                                <div class="mcq-options">
+                                    <div class="form-group">
+                                        <label>Options</label>
+                                        <div class="option-item">
+                                            <input type="radio" name="correct-1" id="option-1-1">
+                                            <input type="text" placeholder="Option 1">
+                                            <button class="btn-icon"><i class="fas fa-times"></i></button>
+                                        </div>
+                                        <div class="option-item">
+                                            <input type="radio" name="correct-1" id="option-1-2">
+                                            <input type="text" placeholder="Option 2">
+                                            <button class="btn-icon"><i class="fas fa-times"></i></button>
+                                        </div>
+                                        <div class="option-item">
+                                            <input type="radio" name="correct-1" id="option-1-3">
+                                            <input type="text" placeholder="Option 3">
+                                            <button class="btn-icon"><i class="fas fa-times"></i></button>
+                                        </div>
+                                        <div class="option-item">
+                                            <input type="radio" name="correct-1" id="option-1-4">
+                                            <input type="text" placeholder="Option 4">
+                                            <button class="btn-icon"><i class="fas fa-times"></i></button>
+                                        </div>
+                                        <button class="btn-add-option"><i class="fas fa-plus"></i> Add Option</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Points</label>
+                                    <input type="number" min="1" placeholder="10">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-add-question"><i class="fas fa-plus"></i> Add Question</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Proctoring Settings</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="require-camera" checked>
+                                <label for="require-camera">Require Camera</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="prevent-tab-switch" checked>
+                                <label for="prevent-tab-switch">Prevent Tab Switching</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="randomize-questions">
+                                <label for="randomize-questions">Randomize Questions</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="show-results">
+                                <label for="show-results">Show Results After Submission</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn secondary">Save as Draft</button>
+                        <button class="btn primary">Publish Quiz</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quizzes Section -->
+            <div class="dashboard-section" id="quizzes-section">
+                <h1>My Quizzes</h1>
+                <p class="subtitle">Manage your quizzes</p>
+
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search quizzes...">
+                    </div>
+                    <div class="filter-options">
+                        <select>
+                            <option value="all">All Quizzes</option>
+                            <option value="active">Active</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="past">Past</option>
+                            <option value="draft">Drafts</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="quiz-list">
+                    <div class="quiz-card active">
+                        <div class="quiz-status">Active</div>
+                        <h3>Data Structures Mid-Term</h3>
+                        <p class="quiz-info"><i class="fas fa-calendar"></i> Jul 15, 2025</p>
+                        <p class="quiz-info"><i class="fas fa-clock"></i> 30 minutes</p>
+                        <p class="quiz-info"><i class="fas fa-users"></i> 42 students</p>
+                        <div class="quiz-actions">
+                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="quiz-card upcoming">
+                        <div class="quiz-status">Upcoming</div>
+                        <h3>Artificial Intelligence Final</h3>
+                        <p class="quiz-info"><i class="fas fa-calendar"></i> Jul 20, 2025</p>
+                        <p class="quiz-info"><i class="fas fa-clock"></i> 60 minutes</p>
+                        <p class="quiz-info"><i class="fas fa-users"></i> 38 students</p>
+                        <div class="quiz-actions">
+                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="quiz-card past">
+                        <div class="quiz-status">Past</div>
+                        <h3>Computer Networks Quiz #2</h3>
+                        <p class="quiz-info"><i class="fas fa-calendar"></i> Jul 5, 2025</p>
+                        <p class="quiz-info"><i class="fas fa-clock"></i> 45 minutes</p>
+                        <p class="quiz-info"><i class="fas fa-users"></i> 45 students</p>
+                        <div class="quiz-actions">
+                            <button class="btn-icon"><i class="fas fa-chart-bar"></i></button>
+                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                            <button class="btn-icon"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="quiz-card draft">
+                        <div class="quiz-status">Draft</div>
+                        <h3>Database Systems Quiz</h3>
+                        <p class="quiz-info"><i class="fas fa-calendar"></i> Not scheduled</p>
+                        <p class="quiz-info"><i class="fas fa-clock"></i> 40 minutes</p>
+                        <p class="quiz-info"><i class="fas fa-file-alt"></i> 15 questions</p>
+                        <div class="quiz-actions">
+                            <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                            <button class="btn-icon"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions Section -->
+            <div class="dashboard-section" id="submissions-section">
+                <h1>Quiz Submissions</h1>
+                <p class="subtitle">Review student submissions</p>
+
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search submissions...">
+                    </div>
+                    <div class="filter-options">
+                        <select id="quiz-filter">
+                            <option value="all">All Quizzes</option>
+                            <option value="ds">Data Structures Mid-Term</option>
+                            <option value="ai">Artificial Intelligence Final</option>
+                            <option value="cn">Computer Networks Quiz #2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="submissions-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Quiz</th>
+                                <th>Submission Time</th>
+                                <th>Duration</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <img src="../../img/user-placeholder.png" alt="Student">
+                                        <div>
+                                            <p class="name">Ali Hassan</p>
+                                            <p class="email">ali.hassan@nutech.edu.pk</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Data Structures Mid-Term</td>
+                                <td>Jul 15, 2025, 3:45 PM</td>
+                                <td>28 min</td>
+                                <td>85/100</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-download"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <img src="../../img/user-placeholder.png" alt="Student">
+                                        <div>
+                                            <p class="name">Sara Khan</p>
+                                            <p class="email">sara.khan@nutech.edu.pk</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Data Structures Mid-Term</td>
+                                <td>Jul 15, 2025, 3:30 PM</td>
+                                <td>25 min</td>
+                                <td>92/100</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-download"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <img src="../../img/user-placeholder.png" alt="Student">
+                                        <div>
+                                            <p class="name">Usman Ahmed</p>
+                                            <p class="email">usman.ahmed@nutech.edu.pk</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Computer Networks Quiz #2</td>
+                                <td>Jul 5, 2025, 2:15 PM</td>
+                                <td>42 min</td>
+                                <td>78/100</td>
+                                <td><span class="status graded">Graded</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-download"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="student-info">
+                                        <img src="../../img/user-placeholder.png" alt="Student">
+                                        <div>
+                                            <p class="name">Fatima Zahra</p>
+                                            <p class="email">fatima.zahra@nutech.edu.pk</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Computer Networks Quiz #2</td>
+                                <td>Jul 5, 2025, 2:40 PM</td>
+                                <td>45 min</td>
+                                <td>-</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td>
+                                    <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                    <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./teacher.js"></script>
+</body>
+</html>
