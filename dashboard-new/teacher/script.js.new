@@ -1,0 +1,1736 @@
+/**
+ * Teacher Dashboard JavaScript
+ * Developed by R Lab Work (Aleena Tahir & Saqlain Abbas)
+ */
+
+// Initialize dashboard data with mock data
+const dashboardData = {
+    quizzes: [
+        {
+            id: 1,
+            title: "Introduction to Computer Science",
+            course: "CS101",
+            createdAt: "2025-07-01",
+            status: "active",
+            questions: 15,
+            submissions: 24,
+            averageScore: 78
+        },
+        {
+            id: 2,
+            title: "Data Structures Midterm",
+            course: "CS202",
+            createdAt: "2025-06-28",
+            status: "ended",
+            questions: 20,
+            submissions: 32,
+            averageScore: 72
+        },
+        {
+            id: 3,
+            title: "Web Development Basics",
+            course: "CS301",
+            createdAt: "2025-07-05",
+            status: "draft",
+            questions: 10,
+            submissions: 0,
+            averageScore: 0
+        },
+        {
+            id: 4,
+            title: "Algorithms Quiz",
+            course: "CS202",
+            createdAt: "2025-07-10",
+            status: "active",
+            questions: 12,
+            submissions: 18,
+            averageScore: 85
+        }
+    ],
+    submissions: [
+        {
+            id: 1,
+            student: "John Smith",
+            email: "john.smith@example.com",
+            quizId: 1,
+            quizTitle: "Introduction to Computer Science",
+            submittedAt: "2025-07-05 14:30",
+            score: 85,
+            status: "graded"
+        },
+        {
+            id: 2,
+            student: "Emily Johnson",
+            email: "emily.j@example.com",
+            quizId: 1,
+            quizTitle: "Introduction to Computer Science",
+            submittedAt: "2025-07-05 15:45",
+            score: 92,
+            status: "graded"
+        },
+        {
+            id: 3,
+            student: "Michael Brown",
+            email: "michael.b@example.com",
+            quizId: 2,
+            quizTitle: "Data Structures Midterm",
+            submittedAt: "2025-07-02 10:15",
+            score: 68,
+            status: "graded"
+        },
+        {
+            id: 4,
+            student: "Sarah Davis",
+            email: "sarah.d@example.com",
+            quizId: 2,
+            quizTitle: "Data Structures Midterm",
+            submittedAt: "2025-07-02 11:30",
+            score: 0,
+            status: "pending"
+        },
+        {
+            id: 5,
+            student: "David Wilson",
+            email: "david.w@example.com",
+            quizId: 4,
+            quizTitle: "Algorithms Quiz",
+            submittedAt: "2025-07-12 09:45",
+            score: 0,
+            status: "pending"
+        }
+    ],
+    courses: [
+        { id: 1, code: "CS101", name: "Introduction to Computer Science" },
+        { id: 2, code: "CS202", name: "Data Structures and Algorithms" },
+        { id: 3, code: "CS301", name: "Web Development" },
+        { id: 4, code: "CS401", name: "Artificial Intelligence" }
+    ],
+    recentActivity: [
+        {
+            id: 1,
+            type: "submission",
+            title: "New submission received",
+            description: "David Wilson submitted Algorithms Quiz",
+            time: "10 minutes ago",
+            icon: "fa-file-alt",
+            iconColor: "blue"
+        },
+        {
+            id: 2,
+            type: "alert",
+            title: "Proctoring Alert",
+            description: "Suspicious activity detected during Data Structures Midterm",
+            time: "2 hours ago",
+            icon: "fa-exclamation-triangle",
+            iconColor: "orange"
+        },
+        {
+            id: 3,
+            type: "quiz",
+            title: "Quiz Created",
+            description: "You created Web Development Basics quiz",
+            time: "10 hours ago",
+            icon: "fa-clipboard-list",
+            iconColor: "green"
+        },
+        {
+            id: 4,
+            type: "submission",
+            title: "Quiz Graded",
+            description: "You graded Emily Johnson's submission",
+            time: "1 day ago",
+            icon: "fa-check-circle",
+            iconColor: "teal"
+        }
+    ],
+    stats: {
+        totalQuizzes: 4,
+        activeQuizzes: 2,
+        totalSubmissions: 5,
+        averageScore: 81.7
+    }
+};
+
+// Initialize all sections when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dashboard data
+    initializeDashboardData();
+    
+    // Setup navigation
+    setupNavigation();
+    
+    // Setup sidebar toggle
+    setupSidebarToggle();
+    
+    // Setup user dropdown
+    setupUserDropdown();
+    
+    // Initialize dashboard overview
+    initializeDashboardOverview();
+    
+    // Initialize quizzes list
+    initializeQuizzesList();
+    
+    // Initialize submissions
+    initializeSubmissions();
+    
+    // Initialize analytics
+    initializeAnalytics();
+    
+    // Initialize settings
+    initializeSettings();
+    
+    // Initialize quiz creation
+    initializeQuizCreation();
+    
+    // Setup search functionality
+    setupSearch();
+    
+    // Show notification to welcome the user
+    showNotification('Welcome', 'Welcome to the ProctorAI Teacher Dashboard', 'success');
+});
+
+// Initialize dashboard data
+function initializeDashboardData() {
+    // This function would normally fetch data from an API
+    // For now, we're using the mock data defined above
+    console.log('Dashboard data initialized');
+}
+
+// Setup navigation between sections
+function setupNavigation() {
+    const navItems = document.querySelectorAll('.nav-item a');
+    const sections = document.querySelectorAll('.dashboard-section');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all nav items
+            navItems.forEach(navItem => {
+                navItem.parentElement.classList.remove('active');
+            });
+            
+            // Add active class to clicked nav item
+            this.parentElement.classList.add('active');
+            
+            // Hide all sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the corresponding section
+            const sectionId = this.getAttribute('data-section');
+            document.getElementById(sectionId).classList.add('active');
+            
+            // On mobile, close sidebar after navigation
+            if (window.innerWidth < 768) {
+                document.querySelector('.sidebar').classList.add('collapsed');
+                document.querySelector('.main-content').classList.add('expanded');
+            }
+        });
+    });
+}
+
+// Setup sidebar toggle
+function setupSidebarToggle() {
+    const toggleBtn = document.getElementById('sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    
+    if (toggleBtn) {
+        // Check localStorage for sidebar state
+        const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (sidebarCollapsed) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+        }
+        
+        toggleBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        });
+    }
+}
+
+// Setup user dropdown
+function setupUserDropdown() {
+    const userDropdownToggle = document.querySelector('.user-dropdown-toggle');
+    const userDropdownMenu = document.querySelector('.user-dropdown-menu');
+    
+    if (userDropdownToggle && userDropdownMenu) {
+        userDropdownToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            userDropdownMenu.classList.toggle('show');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!userDropdownToggle.contains(e.target)) {
+                userDropdownMenu.classList.remove('show');
+            }
+        });
+    }
+}
+
+// Setup search functionality
+function setupSearch() {
+    const searchInput = document.querySelector('.search-box input');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase().trim();
+                if (searchTerm) {
+                    // Determine which section is active
+                    const activeSection = document.querySelector('.dashboard-section.active');
+                    
+                    if (activeSection.id === 'quizzes-section') {
+                        // Search in quizzes
+                        searchQuizzes(searchTerm);
+                    } else if (activeSection.id === 'submissions-section') {
+                        // Search in submissions
+                        searchSubmissions(searchTerm);
+                    } else {
+                        // General search
+                        showNotification('Search', `Searching for "${searchTerm}"`, 'info');
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Search quizzes
+function searchQuizzes(term) {
+    const quizCards = document.querySelectorAll('.quiz-card');
+    let found = 0;
+    
+    quizCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const course = card.querySelector('.quiz-meta span').textContent.toLowerCase();
+        
+        if (title.includes(term) || course.includes(term)) {
+            card.style.display = '';
+            found++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    showNotification('Search Results', `Found ${found} quizzes matching "${term}"`, 'info');
+}
+
+// Search submissions
+function searchSubmissions(term) {
+    const submissionRows = document.querySelectorAll('#submissions tbody tr');
+    let found = 0;
+    
+    submissionRows.forEach(row => {
+        const student = row.querySelector('td:first-child').textContent.toLowerCase();
+        const quiz = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        
+        if (student.includes(term) || quiz.includes(term)) {
+            row.style.display = '';
+            found++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    showNotification('Search Results', `Found ${found} submissions matching "${term}"`, 'info');
+}
+
+// Show notification
+function showNotification(title, message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-header">
+            <h4>${title}</h4>
+            <button class="close-notification"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="notification-body">
+            ${message}
+        </div>
+    `;
+    
+    // Add to notification container
+    const notificationContainer = document.querySelector('.notification-container');
+    if (!notificationContainer) {
+        const container = document.createElement('div');
+        container.className = 'notification-container';
+        document.body.appendChild(container);
+        container.appendChild(notification);
+    } else {
+        notificationContainer.appendChild(notification);
+    }
+    
+    // Add event listener to close button
+    notification.querySelector('.close-notification').addEventListener('click', function() {
+        notification.classList.add('fade-out');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    });
+    
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.classList.add('fade-out');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+    }, 5000);
+}
+
+// Initialize Dashboard Overview section
+function initializeDashboardOverview() {
+    // Update stats cards
+    updateDashboardStats();
+    
+    // Update recent activity
+    updateRecentActivity();
+}
+
+// Update dashboard stats
+function updateDashboardStats() {
+    const statsContainer = document.querySelector('#dashboard-overview-section .stats-container');
+    if (!statsContainer) return;
+    
+    // Clear existing stats
+    statsContainer.innerHTML = '';
+    
+    // Create stats cards
+    const stats = [
+        { title: 'Total Quizzes', value: dashboardData.stats.totalQuizzes, icon: 'fa-clipboard-list', color: 'blue' },
+        { title: 'Active Quizzes', value: dashboardData.stats.activeQuizzes, icon: 'fa-play-circle', color: 'green' },
+        { title: 'Total Submissions', value: dashboardData.stats.totalSubmissions, icon: 'fa-file-alt', color: 'orange' },
+        { title: 'Average Score', value: dashboardData.stats.averageScore + '%', icon: 'fa-chart-line', color: 'purple' }
+    ];
+    
+    stats.forEach(stat => {
+        const statCard = document.createElement('div');
+        statCard.className = 'stat-card';
+        statCard.innerHTML = `
+            <div class="stat-icon ${stat.color}">
+                <i class="fas ${stat.icon}"></i>
+            </div>
+            <div class="stat-content">
+                <h3>${stat.value}</h3>
+                <p>${stat.title}</p>
+            </div>
+        `;
+        statsContainer.appendChild(statCard);
+    });
+}
+
+// Update recent activity
+function updateRecentActivity() {
+    const activityContainer = document.querySelector('#dashboard-overview-section .recent-activity');
+    if (!activityContainer) return;
+    
+    // Clear existing activity
+    activityContainer.innerHTML = '<h3>Recent Activity</h3>';
+    
+    // Create activity list
+    const activityList = document.createElement('ul');
+    activityList.className = 'activity-list';
+    
+    dashboardData.recentActivity.forEach(activity => {
+        const activityItem = document.createElement('li');
+        activityItem.className = 'activity-item';
+        activityItem.innerHTML = `
+            <div class="activity-icon">
+                <i class="fas ${activity.icon}" style="color: ${activity.iconColor};"></i>
+            </div>
+            <div class="activity-content">
+                <h4>${activity.title}</h4>
+                <p>${activity.description}</p>
+                <span class="activity-time">${activity.time}</span>
+            </div>
+        `;
+        activityList.appendChild(activityItem);
+    });
+    
+    activityContainer.appendChild(activityList);
+}
+
+// Initialize Quizzes List section
+function initializeQuizzesList() {
+    const quizzesContainer = document.querySelector('#quizzes-section .quizzes-container');
+    if (!quizzesContainer) return;
+    
+    // Clear existing quizzes
+    quizzesContainer.innerHTML = '';
+    
+    // Create quiz cards
+    dashboardData.quizzes.forEach(quiz => {
+        const quizCard = document.createElement('div');
+        quizCard.className = 'quiz-card';
+        quizCard.dataset.id = quiz.id;
+        quizCard.dataset.status = quiz.status;
+        
+        quizCard.innerHTML = `
+            <div class="quiz-header">
+                <h3>${quiz.title}</h3>
+                <div class="quiz-menu">
+                    <button class="quiz-menu-toggle"><i class="fas fa-ellipsis-v"></i></button>
+                    <div class="quiz-menu-dropdown">
+                        <a href="#" class="view-quiz" data-id="${quiz.id}"><i class="fas fa-eye"></i> View</a>
+                        <a href="#" class="edit-quiz" data-id="${quiz.id}"><i class="fas fa-edit"></i> Edit</a>
+                        <a href="#" class="duplicate-quiz" data-id="${quiz.id}"><i class="fas fa-copy"></i> Duplicate</a>
+                        <a href="#" class="analytics-quiz" data-id="${quiz.id}"><i class="fas fa-chart-bar"></i> Analytics</a>
+                        <a href="#" class="delete-quiz" data-id="${quiz.id}"><i class="fas fa-trash"></i> Delete</a>
+                    </div>
+                </div>
+            </div>
+            <div class="quiz-meta">
+                <span><i class="fas fa-book"></i> ${quiz.course}</span>
+                <span><i class="fas fa-calendar"></i> ${quiz.createdAt}</span>
+            </div>
+            <div class="quiz-stats">
+                <div class="quiz-stat">
+                    <i class="fas fa-question-circle"></i>
+                    <span>${quiz.questions} Questions</span>
+                </div>
+                <div class="quiz-stat">
+                    <i class="fas fa-users"></i>
+                    <span>${quiz.submissions} Submissions</span>
+                </div>
+                <div class="quiz-stat">
+                    <i class="fas fa-chart-line"></i>
+                    <span>${quiz.averageScore}% Average</span>
+                </div>
+            </div>
+            <div class="quiz-status ${quiz.status}">
+                <span>${quiz.status.charAt(0).toUpperCase() + quiz.status.slice(1)}</span>
+            </div>
+        `;
+        
+        quizzesContainer.appendChild(quizCard);
+    });
+    
+    // Setup quiz menus and actions
+    setupQuizMenus();
+    setupQuizActions();
+    setupQuizFilters();
+}
+
+// Setup quiz menu dropdowns
+function setupQuizMenus() {
+    const menuToggles = document.querySelectorAll('.quiz-menu-toggle');
+    
+    menuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.quiz-menu-dropdown').forEach(dropdown => {
+                if (dropdown !== this.nextElementSibling) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            // Toggle this dropdown
+            this.nextElementSibling.classList.toggle('show');
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.quiz-menu-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('show');
+        });
+    });
+}
+
+// Setup quiz action buttons
+function setupQuizActions() {
+    // View quiz
+    document.querySelectorAll('.view-quiz').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const quizId = parseInt(this.dataset.id);
+            const quiz = dashboardData.quizzes.find(q => q.id === quizId);
+            if (quiz) {
+                showQuizPreviewModal(quiz);
+            }
+        });
+    });
+    
+    // Edit quiz
+    document.querySelectorAll('.edit-quiz').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const quizId = parseInt(this.dataset.id);
+            showNotification('Edit Quiz', `Editing quiz #${quizId}`, 'info');
+            // Navigate to create quiz section with quiz data
+            document.querySelector('.nav-item a[data-section="create-quiz-section"]').click();
+        });
+    });
+    
+    // Duplicate quiz
+    document.querySelectorAll('.duplicate-quiz').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const quizId = parseInt(this.dataset.id);
+            const quiz = dashboardData.quizzes.find(q => q.id === quizId);
+            if (quiz) {
+                // Create a duplicate quiz
+                const newQuiz = {...quiz};
+                newQuiz.id = dashboardData.quizzes.length + 1;
+                newQuiz.title = `${quiz.title} (Copy)`;
+                newQuiz.createdAt = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                newQuiz.status = 'draft';
+                newQuiz.submissions = 0;
+                newQuiz.averageScore = 0;
+                
+                // Add to dashboard data
+                dashboardData.quizzes.push(newQuiz);
+                
+                // Update stats
+                dashboardData.stats.totalQuizzes++;
+                
+                // Refresh quizzes list
+                initializeQuizzesList();
+                
+                showNotification('Quiz Duplicated', `Quiz "${quiz.title}" has been duplicated`, 'success');
+            }
+        });
+    });
+    
+    // Analytics for quiz
+    document.querySelectorAll('.analytics-quiz').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const quizId = parseInt(this.dataset.id);
+            showNotification('Quiz Analytics', `Viewing analytics for quiz #${quizId}`, 'info');
+            document.querySelector('.nav-item a[data-section="analytics-section"]').click();
+        });
+    });
+    
+    // Delete quiz
+    document.querySelectorAll('.delete-quiz').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const quizId = parseInt(this.dataset.id);
+            const quiz = dashboardData.quizzes.find(q => q.id === quizId);
+            if (quiz) {
+                if (confirm(`Are you sure you want to delete "${quiz.title}"?`)) {
+                    // Remove quiz from dashboard data
+                    dashboardData.quizzes = dashboardData.quizzes.filter(q => q.id !== quizId);
+                    
+                    // Update stats
+                    dashboardData.stats.totalQuizzes--;
+                    if (quiz.status === 'active') {
+                        dashboardData.stats.activeQuizzes--;
+                    }
+                    
+                    // Refresh quizzes list
+                    initializeQuizzesList();
+                    
+                    showNotification('Quiz Deleted', `Quiz "${quiz.title}" has been deleted`, 'success');
+                }
+            }
+        });
+    });
+}
+
+// Setup quiz filters
+function setupQuizFilters() {
+    const filterButtons = document.querySelectorAll('#quizzes-section .filter-btn');
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Get filter value
+            const filter = this.dataset.filter;
+            
+            // Filter quiz cards
+            const quizCards = document.querySelectorAll('.quiz-card');
+            quizCards.forEach(card => {
+                if (filter === 'all' || card.dataset.status === filter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Show quiz preview modal
+function showQuizPreviewModal(quiz) {
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'modal quiz-preview-modal';
+    
+    // Create modal content
+    modal.innerHTML = `
+        <div class="modal-header">
+            <h3>${quiz.title}</h3>
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="quiz-info">
+                <div class="quiz-info-item">
+                    <span class="label">Course:</span>
+                    <span class="value">${quiz.course}</span>
+                </div>
+                <div class="quiz-info-item">
+                    <span class="label">Created:</span>
+                    <span class="value">${quiz.createdAt}</span>
+                </div>
+                <div class="quiz-info-item">
+                    <span class="label">Status:</span>
+                    <span class="value status-badge ${quiz.status}">${quiz.status.charAt(0).toUpperCase() + quiz.status.slice(1)}</span>
+                </div>
+                <div class="quiz-info-item">
+                    <span class="label">Questions:</span>
+                    <span class="value">${quiz.questions}</span>
+                </div>
+                <div class="quiz-info-item">
+                    <span class="label">Submissions:</span>
+                    <span class="value">${quiz.submissions}</span>
+                </div>
+                <div class="quiz-info-item">
+                    <span class="label">Average Score:</span>
+                    <span class="value">${quiz.averageScore}%</span>
+                </div>
+            </div>
+            <div class="quiz-preview-actions">
+                <button class="btn btn-primary edit-quiz-btn" data-id="${quiz.id}"><i class="fas fa-edit"></i> Edit Quiz</button>
+                <button class="btn btn-outline view-submissions-btn" data-id="${quiz.id}"><i class="fas fa-file-alt"></i> View Submissions</button>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to overlay
+    modalOverlay.appendChild(modal);
+    
+    // Add overlay to body
+    document.body.appendChild(modalOverlay);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        modalOverlay.classList.add('show');
+        modal.classList.add('show');
+    }, 10);
+    
+    // Close modal when clicking close button
+    modal.querySelector('.close-modal').addEventListener('click', function() {
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+        }, 300);
+    });
+    
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+            modalOverlay.classList.remove('show');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modalOverlay.remove();
+            }, 300);
+        }
+    });
+    
+    // Edit quiz button
+    modal.querySelector('.edit-quiz-btn').addEventListener('click', function() {
+        const quizId = parseInt(this.dataset.id);
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+            document.querySelector('.nav-item a[data-section="create-quiz-section"]').click();
+            showNotification('Edit Quiz', `Editing quiz #${quizId}`, 'info');
+        }, 300);
+    });
+    
+    // View submissions button
+    modal.querySelector('.view-submissions-btn').addEventListener('click', function() {
+        const quizId = parseInt(this.dataset.id);
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+            document.querySelector('.nav-item a[data-section="submissions-section"]').click();
+            showNotification('View Submissions', `Viewing submissions for quiz #${quizId}`, 'info');
+        }, 300);
+    });
+}
+
+// Initialize Submissions section
+function initializeSubmissions() {
+    const submissionsTable = document.querySelector('#submissions-section table tbody');
+    if (!submissionsTable) return;
+    
+    // Clear existing submissions
+    submissionsTable.innerHTML = '';
+    
+    // Create submission rows
+    dashboardData.submissions.forEach(submission => {
+        const submissionRow = document.createElement('tr');
+        submissionRow.dataset.id = submission.id;
+        submissionRow.dataset.status = submission.status;
+        
+        // Determine status class and text
+        let statusClass = '';
+        let statusText = '';
+        
+        switch (submission.status) {
+            case 'graded':
+                statusClass = 'status-success';
+                statusText = 'Graded';
+                break;
+            case 'pending':
+                statusClass = 'status-warning';
+                statusText = 'Pending';
+                break;
+            case 'flagged':
+                statusClass = 'status-danger';
+                statusText = 'Flagged';
+                break;
+        }
+        
+        submissionRow.innerHTML = `
+            <td>${submission.student}</td>
+            <td>${submission.quizTitle}</td>
+            <td>${submission.submittedAt}</td>
+            <td>${submission.status === 'graded' ? submission.score + '%' : '-'}</td>
+            <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+            <td class="actions">
+                <button class="btn btn-sm btn-outline view-submission" data-id="${submission.id}"><i class="fas fa-eye"></i></button>
+                <button class="btn btn-sm btn-outline grade-submission" data-id="${submission.id}" ${submission.status === 'graded' ? 'title="Edit Grade"' : ''}>
+                    <i class="fas ${submission.status === 'graded' ? 'fa-edit' : 'fa-check'}"></i>
+                </button>
+                <button class="btn btn-sm btn-outline download-submission" data-id="${submission.id}"><i class="fas fa-download"></i></button>
+            </td>
+        `;
+        
+        submissionsTable.appendChild(submissionRow);
+    });
+    
+    // Setup submission actions
+    setupSubmissionActions();
+    setupSubmissionFilters();
+}
+
+// Setup submission action buttons
+function setupSubmissionActions() {
+    // View submission
+    document.querySelectorAll('.view-submission').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const submissionId = parseInt(this.dataset.id);
+            const submission = dashboardData.submissions.find(s => s.id === submissionId);
+            if (submission) {
+                showSubmissionModal(submission);
+            }
+        });
+    });
+    
+    // Grade submission
+    document.querySelectorAll('.grade-submission').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const submissionId = parseInt(this.dataset.id);
+            const submission = dashboardData.submissions.find(s => s.id === submissionId);
+            if (submission) {
+                showGradeSubmissionModal(submission);
+            }
+        });
+    });
+    
+    // Download submission
+    document.querySelectorAll('.download-submission').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const submissionId = parseInt(this.dataset.id);
+            const submission = dashboardData.submissions.find(s => s.id === submissionId);
+            if (submission) {
+                showNotification('Download', `Downloading submission from ${submission.student}`, 'info');
+                // In a real app, this would trigger a download
+            }
+        });
+    });
+}
+
+// Setup submission filters
+function setupSubmissionFilters() {
+    const filterButtons = document.querySelectorAll('#submissions-section .filter-btn');
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(b => b.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Get filter value
+            const filter = this.dataset.filter;
+            
+            // Filter submission rows
+            const submissionRows = document.querySelectorAll('#submissions tbody tr');
+            submissionRows.forEach(row => {
+                if (filter === 'all' || row.dataset.status === filter) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Show submission modal
+function showSubmissionModal(submission) {
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'modal submission-modal';
+    
+    // Create modal content
+    modal.innerHTML = `
+        <div class="modal-header">
+            <h3>Submission Details</h3>
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="submission-info">
+                <div class="submission-info-item">
+                    <span class="label">Student:</span>
+                    <span class="value">${submission.student}</span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Email:</span>
+                    <span class="value">${submission.email}</span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Quiz:</span>
+                    <span class="value">${submission.quizTitle}</span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Submitted:</span>
+                    <span class="value">${submission.submittedAt}</span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Status:</span>
+                    <span class="value status-badge ${submission.status === 'graded' ? 'status-success' : submission.status === 'pending' ? 'status-warning' : 'status-danger'}">
+                        ${submission.status.charAt(0).toUpperCase() + submission.status.slice(1)}
+                    </span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Score:</span>
+                    <span class="value">${submission.status === 'graded' ? submission.score + '%' : 'Not graded yet'}</span>
+                </div>
+            </div>
+            <div class="submission-content">
+                <h4>Submission Content</h4>
+                <div class="submission-answers">
+                    <p>This is where the student's answers would be displayed. In a real application, this would show all the questions and the student's responses.</p>
+                    <div class="mock-answer">
+                        <p><strong>Question 1:</strong> What is the main difference between procedural and object-oriented programming?</p>
+                        <p><em>Student's Answer:</em> Procedural programming focuses on procedures or routines, while object-oriented programming focuses on objects that contain both data and methods.</p>
+                    </div>
+                    <div class="mock-answer">
+                        <p><strong>Question 2:</strong> Explain the concept of inheritance in OOP.</p>
+                        <p><em>Student's Answer:</em> Inheritance is a mechanism where a new class inherits properties and behaviors from an existing class, allowing for code reuse and establishing a relationship between a more general class and a more specialized class.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="submission-actions">
+                <button class="btn btn-primary grade-btn" data-id="${submission.id}">
+                    <i class="fas ${submission.status === 'graded' ? 'fa-edit' : 'fa-check'}"></i> 
+                    ${submission.status === 'graded' ? 'Edit Grade' : 'Grade Submission'}
+                </button>
+                <button class="btn btn-outline download-btn" data-id="${submission.id}">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Add modal to overlay
+    modalOverlay.appendChild(modal);
+    
+    // Add overlay to body
+    document.body.appendChild(modalOverlay);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        modalOverlay.classList.add('show');
+        modal.classList.add('show');
+    }, 10);
+    
+    // Close modal when clicking close button
+    modal.querySelector('.close-modal').addEventListener('click', function() {
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+        }, 300);
+    });
+    
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+            modalOverlay.classList.remove('show');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modalOverlay.remove();
+            }, 300);
+        }
+    });
+    
+    // Grade button
+    modal.querySelector('.grade-btn').addEventListener('click', function() {
+        const submissionId = parseInt(this.dataset.id);
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+            const submission = dashboardData.submissions.find(s => s.id === submissionId);
+            if (submission) {
+                showGradeSubmissionModal(submission);
+            }
+        }, 300);
+    });
+    
+    // Download button
+    modal.querySelector('.download-btn').addEventListener('click', function() {
+        showNotification('Download', `Downloading submission from ${submission.student}`, 'info');
+    });
+}
+
+// Show grade submission modal
+function showGradeSubmissionModal(submission) {
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'modal-overlay';
+    
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'modal grade-submission-modal';
+    
+    // Create modal content
+    modal.innerHTML = `
+        <div class="modal-header">
+            <h3>${submission.status === 'graded' ? 'Edit Grade' : 'Grade Submission'}</h3>
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="submission-info">
+                <div class="submission-info-item">
+                    <span class="label">Student:</span>
+                    <span class="value">${submission.student}</span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Quiz:</span>
+                    <span class="value">${submission.quizTitle}</span>
+                </div>
+                <div class="submission-info-item">
+                    <span class="label">Submitted:</span>
+                    <span class="value">${submission.submittedAt}</span>
+                </div>
+            </div>
+            <form id="grade-form">
+                <div class="form-group">
+                    <label for="grade-score">Score (%)</label>
+                    <input type="number" id="grade-score" class="form-control" min="0" max="100" value="${submission.status === 'graded' ? submission.score : ''}" required>
+                </div>
+                <div class="form-group">
+                    <label for="grade-feedback">Feedback</label>
+                    <textarea id="grade-feedback" class="form-control" rows="4" placeholder="Provide feedback to the student"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary submit-grade" data-id="${submission.id}">
+                        <i class="fas fa-save"></i> Save Grade
+                    </button>
+                    <button type="button" class="btn btn-outline cancel-grade">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+    
+    // Add modal to overlay
+    modalOverlay.appendChild(modal);
+    
+    // Add overlay to body
+    document.body.appendChild(modalOverlay);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        modalOverlay.classList.add('show');
+        modal.classList.add('show');
+    }, 10);
+    
+    // Close modal when clicking close button
+    modal.querySelector('.close-modal').addEventListener('click', function() {
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+        }, 300);
+    });
+    
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+            modalOverlay.classList.remove('show');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modalOverlay.remove();
+            }, 300);
+        }
+    });
+    
+    // Cancel button
+    modal.querySelector('.cancel-grade').addEventListener('click', function() {
+        modalOverlay.classList.remove('show');
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modalOverlay.remove();
+        }, 300);
+    });
+    
+    // Submit grade form
+    modal.querySelector('#grade-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submissionId = parseInt(modal.querySelector('.submit-grade').dataset.id);
+        const score = parseInt(modal.querySelector('#grade-score').value);
+        const feedback = modal.querySelector('#grade-feedback').value;
+        
+        // Update submission in dashboard data
+        const submission = dashboardData.submissions.find(s => s.id === submissionId);
+        if (submission) {
+            submission.score = score;
+            submission.status = 'graded';
+            submission.feedback = feedback;
+            
+            // Update UI
+            initializeSubmissions();
+            
+            // Close modal
+            modalOverlay.classList.remove('show');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modalOverlay.remove();
+                showNotification('Grade Saved', `Grade saved for ${submission.student}'s submission`, 'success');
+            }, 300);
+        }
+    });
+}
+
+// Initialize Analytics section
+function initializeAnalytics() {
+    // Setup chart containers
+    setupChartContainers();
+    
+    // Initialize charts
+    initializeCharts();
+}
+
+// Setup chart containers
+function setupChartContainers() {
+    const analyticsSection = document.querySelector('#analytics-section');
+    if (!analyticsSection) return;
+    
+    // Create chart containers if they don't exist
+    if (!document.querySelector('.chart-container')) {
+        const chartsContainer = document.createElement('div');
+        chartsContainer.className = 'charts-container';
+        
+        chartsContainer.innerHTML = `
+            <div class="chart-row">
+                <div class="chart-container">
+                    <h3>Quiz Completion Rates</h3>
+                    <canvas id="completion-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Average Scores by Quiz</h3>
+                    <canvas id="scores-chart"></canvas>
+                </div>
+            </div>
+            <div class="chart-row">
+                <div class="chart-container">
+                    <h3>Submissions Over Time</h3>
+                    <canvas id="submissions-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Question Difficulty Analysis</h3>
+                    <canvas id="difficulty-chart"></canvas>
+                </div>
+            </div>
+        `;
+        
+        analyticsSection.appendChild(chartsContainer);
+    }
+}
+
+// Initialize charts with Chart.js
+function initializeCharts() {
+    // This is where we would initialize Chart.js charts
+    // For now, we'll just show a message since Chart.js might not be loaded
+    console.log('Charts would be initialized here with Chart.js');
+    
+    // Example of how to create a chart with Chart.js:
+    /*
+    if (typeof Chart !== 'undefined') {
+        // Quiz Completion Chart
+        const completionCtx = document.getElementById('completion-chart').getContext('2d');
+        new Chart(completionCtx, {
+            type: 'bar',
+            data: {
+                labels: dashboardData.quizzes.map(quiz => quiz.title),
+                datasets: [{
+                    label: 'Completion Rate (%)',
+                    data: dashboardData.quizzes.map(quiz => (quiz.submissions / 30) * 100), // Assuming 30 students per class
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    }
+    */
+}
+
+// Initialize Settings section
+function initializeSettings() {
+    // Setup settings tabs
+    setupSettingsTabs();
+    
+    // Setup settings forms
+    setupSettingsForms();
+}
+
+// Setup settings tabs
+function setupSettingsTabs() {
+    const tabLinks = document.querySelectorAll('#settings-section .settings-tabs a');
+    const tabContents = document.querySelectorAll('#settings-section .settings-tab-content');
+    
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all tab links
+            tabLinks.forEach(tabLink => {
+                tabLink.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab link
+            this.classList.add('active');
+            
+            // Hide all tab contents
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show the corresponding tab content
+            const tabId = this.getAttribute('href').substring(1);
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+}
+
+// Setup settings forms
+function setupSettingsForms() {
+    const settingsForms = document.querySelectorAll('#settings-section form');
+    
+    settingsForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real app, this would save the settings to the server
+            showNotification('Settings Saved', 'Your settings have been saved successfully', 'success');
+        });
+    });
+}
+
+// Initialize Quiz Creation section
+function initializeQuizCreation() {
+    const quizForm = document.querySelector('#create-quiz-section form');
+    const questionsContainer = document.querySelector('#create-quiz-section .questions-container');
+    
+    if (quizForm) {
+        // Add initial question if none exists
+        if (questionsContainer && questionsContainer.children.length === 0) {
+            addNewQuestion(questionsContainer);
+        }
+        
+        // Setup question type change handlers
+        setupQuestionTypeHandlers();
+        
+        // Setup add/remove question buttons
+        setupQuestionButtons();
+        
+        // Setup form submission
+        quizForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (validateQuizForm()) {
+                // Create a new quiz object
+                const newQuiz = {
+                    id: dashboardData.quizzes.length + 1,
+                    title: document.querySelector('#create-quiz-section input[name="quiz-title"]').value,
+                    course: document.querySelector('#create-quiz-section select[name="course"]').value,
+                    status: document.querySelector('#create-quiz-section select[name="status"]').value,
+                    questions: questionsContainer.querySelectorAll('.question-box').length,
+                    submissions: 0,
+                    averageScore: 0,
+                    createdAt: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+                };
+                
+                // Add to dashboard data
+                dashboardData.quizzes.push(newQuiz);
+                
+                // Update stats
+                dashboardData.stats.totalQuizzes++;
+                if (newQuiz.status === 'active') {
+                    dashboardData.stats.activeQuizzes++;
+                }
+                
+                // Add to recent activity
+                dashboardData.recentActivity.unshift({
+                    id: dashboardData.recentActivity.length + 1,
+                    type: 'quiz',
+                    title: 'Quiz Created',
+                    description: `You created a new quiz: ${newQuiz.title}`,
+                    time: 'Just now',
+                    icon: 'fa-clipboard-list',
+                    iconColor: 'green'
+                });
+                
+                // Show success notification
+                showNotification('Quiz Created', 'Your quiz has been created successfully', 'success');
+                
+                // Reset form
+                this.reset();
+                questionsContainer.innerHTML = '';
+                addNewQuestion(questionsContainer);
+                
+                // Navigate to quizzes list and refresh it
+                document.querySelector('.nav-item a[data-section="quizzes-section"]').click();
+                initializeQuizzesList();
+            }
+        });
+    }
+}
+
+// Add a new question to the quiz form
+function addNewQuestion(container) {
+    const questionCount = container.querySelectorAll('.question-box').length + 1;
+    
+    // Create question box
+    const questionBox = document.createElement('div');
+    questionBox.className = 'question-box';
+    questionBox.dataset.questionId = questionCount;
+    
+    // Create question header
+    const questionHeader = document.createElement('div');
+    questionHeader.className = 'question-header';
+    questionHeader.innerHTML = `
+        <h4>Question ${questionCount}</h4>
+        <div class="question-actions">
+            <button type="button" class="btn btn-sm btn-outline move-question-up"><i class="fas fa-arrow-up"></i></button>
+            <button type="button" class="btn btn-sm btn-outline move-question-down"><i class="fas fa-arrow-down"></i></button>
+            <button type="button" class="btn btn-sm btn-outline remove-question"><i class="fas fa-trash"></i></button>
+        </div>
+    `;
+    
+    // Create question content
+    const questionContent = document.createElement('div');
+    questionContent.className = 'question-content';
+    questionContent.innerHTML = `
+        <div class="form-group">
+            <label for="question-${questionCount}-text">Question Text</label>
+            <input type="text" id="question-${questionCount}-text" name="question-${questionCount}-text" class="form-control" placeholder="Enter question text" required>
+        </div>
+        <div class="form-group">
+            <label for="question-${questionCount}-type">Question Type</label>
+            <select id="question-${questionCount}-type" name="question-${questionCount}-type" class="form-control question-type-select">
+                <option value="multiple-choice">Multiple Choice</option>
+                <option value="checkbox">Checkbox (Multiple Answers)</option>
+                <option value="true-false">True/False</option>
+                <option value="text">Text Input</option>
+                <option value="file-upload">File Upload</option>
+            </select>
+        </div>
+        <div class="question-options">
+            <div class="options-header">
+                <h5>Options</h5>
+                <button type="button" class="btn btn-sm btn-outline add-option"><i class="fas fa-plus"></i> Add Option</button>
+            </div>
+            <div class="options-container">
+                <div class="option-item">
+                    <input type="radio" name="question-${questionCount}-correct" id="question-${questionCount}-option-1-correct" value="1" required>
+                    <input type="text" name="question-${questionCount}-option-1" class="form-control" placeholder="Option 1" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="question-${questionCount}-correct" id="question-${questionCount}-option-2-correct" value="2">
+                    <input type="text" name="question-${questionCount}-option-2" class="form-control" placeholder="Option 2" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Append elements to question box
+    questionBox.appendChild(questionHeader);
+    questionBox.appendChild(questionContent);
+    
+    // Append question box to container
+    container.appendChild(questionBox);
+    
+    // Setup event listeners for this question
+    setupQuestionTypeChange(questionBox);
+}
+
+// Setup question type change handlers
+function setupQuestionTypeHandlers() {
+    document.addEventListener('change', function(e) {
+        if (e.target && e.target.classList.contains('question-type-select')) {
+            const questionBox = e.target.closest('.question-box');
+            if (questionBox) {
+                updateQuestionOptions(questionBox, e.target.value);
+            }
+        }
+    });
+}
+
+// Update question options based on question type
+function updateQuestionOptions(questionBox, questionType) {
+    const questionId = questionBox.dataset.questionId;
+    const optionsContainer = questionBox.querySelector('.options-container');
+    const optionsHeader = questionBox.querySelector('.options-header');
+    
+    // Clear existing options
+    optionsContainer.innerHTML = '';
+    
+    switch (questionType) {
+        case 'multiple-choice':
+            // Show options header with add option button
+            optionsHeader.style.display = '';
+            
+            // Add two default options
+            optionsContainer.innerHTML = `
+                <div class="option-item">
+                    <input type="radio" name="question-${questionId}-correct" id="question-${questionId}-option-1-correct" value="1" required>
+                    <input type="text" name="question-${questionId}-option-1" class="form-control" placeholder="Option 1" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="question-${questionId}-correct" id="question-${questionId}-option-2-correct" value="2">
+                    <input type="text" name="question-${questionId}-option-2" class="form-control" placeholder="Option 2" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+            break;
+            
+        case 'checkbox':
+            // Show options header with add option button
+            optionsHeader.style.display = '';
+            
+            // Add two default options with checkboxes
+            optionsContainer.innerHTML = `
+                <div class="option-item">
+                    <input type="checkbox" name="question-${questionId}-correct" id="question-${questionId}-option-1-correct" value="1">
+                    <input type="text" name="question-${questionId}-option-1" class="form-control" placeholder="Option 1" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" name="question-${questionId}-correct" id="question-${questionId}-option-2-correct" value="2">
+                    <input type="text" name="question-${questionId}-option-2" class="form-control" placeholder="Option 2" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                </div>
+            `;
+            break;
+            
+        case 'true-false':
+            // Hide options header with add option button
+            optionsHeader.style.display = 'none';
+            
+            // Add true/false options
+            optionsContainer.innerHTML = `
+                <div class="option-item">
+                    <input type="radio" name="question-${questionId}-correct" id="question-${questionId}-option-1-correct" value="1" required>
+                    <input type="text" name="question-${questionId}-option-1" class="form-control" value="True" readonly>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="question-${questionId}-correct" id="question-${questionId}-option-2-correct" value="2">
+                    <input type="text" name="question-${questionId}-option-2" class="form-control" value="False" readonly>
+                </div>
+            `;
+            break;
+            
+        case 'text':
+            // Hide options header
+            optionsHeader.style.display = 'none';
+            
+            // Add text input placeholder
+            optionsContainer.innerHTML = `
+                <div class="text-answer-placeholder">
+                    <p><i class="fas fa-info-circle"></i> Students will see a text input field for this question.</p>
+                    <div class="form-group">
+                        <label for="question-${questionId}-answer-key">Answer Key (Optional)</label>
+                        <input type="text" id="question-${questionId}-answer-key" name="question-${questionId}-answer-key" class="form-control" placeholder="Enter correct answer for auto-grading">
+                    </div>
+                </div>
+            `;
+            break;
+            
+        case 'file-upload':
+            // Hide options header
+            optionsHeader.style.display = 'none';
+            
+            // Add file upload placeholder
+            optionsContainer.innerHTML = `
+                <div class="file-upload-placeholder">
+                    <p><i class="fas fa-info-circle"></i> Students will see a file upload field for this question.</p>
+                    <div class="form-group">
+                        <label for="question-${questionId}-file-types">Allowed File Types</label>
+                        <input type="text" id="question-${questionId}-file-types" name="question-${questionId}-file-types" class="form-control" placeholder="pdf,doc,docx,jpg,png" value="pdf,doc,docx,jpg,png">
+                    </div>
+                </div>
+            `;
+            break;
+    }
+}
+
+// Setup question buttons (add/remove question)
+function setupQuestionButtons() {
+    const addQuestionBtn = document.querySelector('#add-question-btn');
+    const questionsContainer = document.querySelector('#create-quiz-section .questions-container');
+    
+    if (addQuestionBtn && questionsContainer) {
+        // Add question button
+        addQuestionBtn.addEventListener('click', function() {
+            addNewQuestion(questionsContainer);
+        });
+        
+        // Remove question button using event delegation
+        questionsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.remove-question')) {
+                const questionBox = e.target.closest('.question-box');
+                if (questionBox && questionsContainer.querySelectorAll('.question-box').length > 1) {
+                    questionBox.remove();
+                    
+                    // Renumber questions
+                    const questionBoxes = questionsContainer.querySelectorAll('.question-box');
+                    questionBoxes.forEach((box, index) => {
+                        box.dataset.questionId = index + 1;
+                        box.querySelector('h4').textContent = `Question ${index + 1}`;
+                    });
+                } else {
+                    showNotification('Error', 'You must have at least one question', 'error');
+                }
+            }
+        });
+        
+        // Add option button using event delegation
+        questionsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.add-option')) {
+                const questionBox = e.target.closest('.question-box');
+                const optionsContainer = questionBox.querySelector('.options-container');
+                const questionId = questionBox.dataset.questionId;
+                const optionCount = optionsContainer.querySelectorAll('.option-item').length + 1;
+                
+                // Create new option
+                const optionItem = document.createElement('div');
+                optionItem.className = 'option-item';
+                
+                // Determine if it's multiple choice or checkbox
+                const questionType = questionBox.querySelector('.question-type-select').value;
+                const inputType = questionType === 'checkbox' ? 'checkbox' : 'radio';
+                
+                optionItem.innerHTML = `
+                    <input type="${inputType}" name="question-${questionId}-correct" id="question-${questionId}-option-${optionCount}-correct" value="${optionCount}">
+                    <input type="text" name="question-${questionId}-option-${optionCount}" class="form-control" placeholder="Option ${optionCount}" required>
+                    <button type="button" class="btn btn-sm btn-outline remove-option"><i class="fas fa-times"></i></button>
+                `;
+                
+                optionsContainer.appendChild(optionItem);
+            }
+        });
+        
+        // Remove option button using event delegation
+        questionsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.remove-option')) {
+                const optionItem = e.target.closest('.option-item');
+                const optionsContainer = optionItem.parentElement;
+                
+                if (optionsContainer.querySelectorAll('.option-item').length > 2) {
+                    optionItem.remove();
+                    
+                    // Renumber options
+                    const questionBox = optionsContainer.closest('.question-box');
+                    const questionId = questionBox.dataset.questionId;
+                    const optionItems = optionsContainer.querySelectorAll('.option-item');
+                    
+                    optionItems.forEach((item, index) => {
+                        const optionNum = index + 1;
+                        const inputType = questionBox.querySelector('.question-type-select').value === 'checkbox' ? 'checkbox' : 'radio';
+                        
+                        // Update input attributes
+                        const radioOrCheckbox = item.querySelector(`input[type="${inputType}"]`);
+                        radioOrCheckbox.id = `question-${questionId}-option-${optionNum}-correct`;
+                        radioOrCheckbox.value = optionNum;
+                        
+                        // Update text input
+                        const textInput = item.querySelector('input[type="text"]');
+                        textInput.name = `question-${questionId}-option-${optionNum}`;
+                        textInput.placeholder = `Option ${optionNum}`;
+                    });
+                } else {
+                    showNotification('Error', 'You must have at least two options', 'error');
+                }
+            }
+        });
+        
+        // Move question up
+        questionsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.move-question-up')) {
+                const questionBox = e.target.closest('.question-box');
+                const previousQuestion = questionBox.previousElementSibling;
+                
+                if (previousQuestion) {
+                    questionsContainer.insertBefore(questionBox, previousQuestion);
+                    renumberQuestions(questionsContainer);
+                }
+            }
+        });
+        
+        // Move question down
+        questionsContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.move-question-down')) {
+                const questionBox = e.target.closest('.question-box');
+                const nextQuestion = questionBox.nextElementSibling;
+                
+                if (nextQuestion) {
+                    questionsContainer.insertBefore(nextQuestion, questionBox);
+                    renumberQuestions(questionsContainer);
+                }
+            }
+        });
+    }
+}
+
+// Renumber questions after reordering
+function renumberQuestions(container) {
+    const questionBoxes = container.querySelectorAll('.question-box');
+    questionBoxes.forEach((box, index) => {
+        const questionNum = index + 1;
+        box.dataset.questionId = questionNum;
+        box.querySelector('h4').textContent = `Question ${questionNum}`;
+        
+        // Update all input names and IDs
+        const inputs = box.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (input.name && input.name.startsWith('question-')) {
+                input.name = input.name.replace(/question-\d+/, `question-${questionNum}`);
+            }
+            if (input.id && input.id.startsWith('question-')) {
+                input.id = input.id.replace(/question-\d+/, `question-${questionNum}`);
+            }
+        });
+    });
+}
+
+// Setup question type change for a specific question
+function setupQuestionTypeChange(questionBox) {
+    const questionTypeSelect = questionBox.querySelector('.question-type-select');
+    if (questionTypeSelect) {
+        updateQuestionOptions(questionBox, questionTypeSelect.value);
+    }
+}
+
+// Validate quiz form before submission
+function validateQuizForm() {
+    // Check if quiz title is provided
+    const quizTitle = document.querySelector('#create-quiz-section input[name="quiz-title"]').value;
+    if (!quizTitle.trim()) {
+        showNotification('Error', 'Please enter a quiz title', 'error');
+        return false;
+    }
+    
+    // Check each question
+    const questionBoxes = document.querySelectorAll('#create-quiz-section .question-box');
+    let valid = true;
+    
+    questionBoxes.forEach((questionBox, index) => {
+        const questionNum = index + 1;
+        const questionText = questionBox.querySelector(`input[id^="question-"][id$="-text"]`).value;
+        const questionType = questionBox.querySelector('.question-type-select').value;
+        
+        // Check if question text is provided
+        if (!questionText.trim()) {
+            showNotification('Error', `Please enter text for Question ${questionNum}`, 'error');
+            valid = false;
+            return;
+        }
+        
+        // For multiple choice and checkbox questions, check if at least one option is selected
+        if (questionType === 'multiple-choice' || questionType === 'checkbox' || questionType === 'true-false') {
+            const selectedOption = questionBox.querySelector(`input[name^="question-"][name$="-correct"]:checked`);
+            if (!selectedOption && questionType !== 'checkbox') {
+                showNotification('Error', `Please select a correct answer for Question ${questionNum}`, 'error');
+                valid = false;
+                return;
+            }
+            
+            // For checkbox, at least one option should be selected
+            if (questionType === 'checkbox') {
+                const selectedOptions = questionBox.querySelectorAll(`input[name^="question-"][name$="-correct"]:checked`);
+                if (selectedOptions.length === 0) {
+                    showNotification('Error', `Please select at least one correct answer for Question ${questionNum}`, 'error');
+                    valid = false;
+                    return;
+                }
+            }
+            
+            // Check if all option texts are provided
+            const optionInputs = questionBox.querySelectorAll('.option-item input[type="text"]');
+            optionInputs.forEach((input, optionIndex) => {
+                if (!input.value.trim() && !input.readOnly) {
+                    showNotification('Error', `Please enter text for Option ${optionIndex + 1} in Question ${questionNum}`, 'error');
+                    valid = false;
+                    return;
+                }
+            });
+        }
+    });
+    
+    return valid;
+}

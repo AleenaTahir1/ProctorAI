@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Navigation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Direct Navigation Test</h1>
+    <p>This page tests basic JavaScript functionality to help diagnose issues.</p>
+    
+    <div class="test-section">
+        <h2>1. Basic Click Test</h2>
+        <button id="test-button">Click Me</button>
+        <div id="click-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. DOM Selection Test</h2>
+        <button id="test-dom">Test DOM Selection</button>
+        <div id="dom-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Event Delegation Test</h2>
+        <div id="delegation-container">
+            <button class="delegate-button" data-value="Button 1">Button 1</button>
+            <button class="delegate-button" data-value="Button 2">Button 2</button>
+            <button class="delegate-button" data-value="Button 3">Button 3</button>
+        </div>
+        <div id="delegation-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. LocalStorage Test</h2>
+        <button id="save-storage">Save to LocalStorage</button>
+        <button id="load-storage">Load from LocalStorage</button>
+        <div id="storage-result" class="result"></div>
+    </div>
+
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page initialized');
+            
+            // 1. Basic Click Test
+            const testButton = document.getElementById('test-button');
+            const clickResult = document.getElementById('click-result');
+            
+            testButton.addEventListener('click', function() {
+                console.log('Button clicked');
+                clickResult.textContent = 'Button clicked at: ' + new Date().toLocaleTimeString();
+            });
+            
+            // 2. DOM Selection Test
+            const testDomButton = document.getElementById('test-dom');
+            const domResult = document.getElementById('dom-result');
+            
+            testDomButton.addEventListener('click', function() {
+                const elements = {
+                    'Buttons': document.querySelectorAll('button').length,
+                    'Test Sections': document.querySelectorAll('.test-section').length,
+                    'Result Divs': document.querySelectorAll('.result').length
+                };
+                
+                let resultText = 'DOM Elements Found:\n';
+                for (const [key, value] of Object.entries(elements)) {
+                    resultText += `${key}: ${value}\n`;
+                }
+                
+                console.log(resultText);
+                domResult.textContent = resultText;
+            });
+            
+            // 3. Event Delegation Test
+            const delegationContainer = document.getElementById('delegation-container');
+            const delegationResult = document.getElementById('delegation-result');
+            
+            delegationContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delegate-button')) {
+                    const value = e.target.getAttribute('data-value');
+                    console.log('Delegation button clicked:', value);
+                    delegationResult.textContent = 'Clicked: ' + value + ' at ' + new Date().toLocaleTimeString();
+                }
+            });
+            
+            // 4. LocalStorage Test
+            const saveStorageButton = document.getElementById('save-storage');
+            const loadStorageButton = document.getElementById('load-storage');
+            const storageResult = document.getElementById('storage-result');
+            
+            saveStorageButton.addEventListener('click', function() {
+                const timestamp = new Date().toLocaleTimeString();
+                localStorage.setItem('testTimestamp', timestamp);
+                console.log('Saved to localStorage:', timestamp);
+                storageResult.textContent = 'Saved timestamp: ' + timestamp;
+            });
+            
+            loadStorageButton.addEventListener('click', function() {
+                const timestamp = localStorage.getItem('testTimestamp');
+                console.log('Loaded from localStorage:', timestamp);
+                storageResult.textContent = timestamp ? 'Loaded timestamp: ' + timestamp : 'No timestamp found in localStorage';
+            });
+        });
+    </script>
+</body>
+</html>

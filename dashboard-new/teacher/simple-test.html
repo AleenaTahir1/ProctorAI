@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Navigation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f0f0f0;
+            transition: all 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        .main-content.expanded {
+            margin-left: -180px;
+        }
+        .nav-item {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            background-color: #ddd;
+        }
+        .section {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .section.active {
+            display: block;
+        }
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <button id="sidebar-toggle">Toggle Sidebar</button>
+            <nav>
+                <ul>
+                    <li class="nav-item active" data-section="section1">Dashboard</li>
+                    <li class="nav-item" data-section="section2">Create Quiz</li>
+                    <li class="nav-item" data-section="section3">My Quizzes</li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="main-content" id="main-content">
+            <h1>Simple Navigation Test</h1>
+            
+            <div id="section1" class="section active">
+                <h2>Dashboard Section</h2>
+                <p>This is the dashboard section content.</p>
+            </div>
+            
+            <div id="section2" class="section">
+                <h2>Create Quiz Section</h2>
+                <p>This is the create quiz section content.</p>
+            </div>
+            
+            <div id="section3" class="section">
+                <h2>My Quizzes Section</h2>
+                <p>This is the my quizzes section content.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Simple test loaded');
+            
+            // Sidebar toggle
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            
+            sidebarToggle.addEventListener('click', function() {
+                console.log('Sidebar toggle clicked');
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+                alert('Sidebar toggle clicked');
+            });
+            
+            // Navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    console.log('Navigation clicked:', sectionId);
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show active section
+                    sections.forEach(section => section.classList.remove('active'));
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    alert('Navigation clicked: ' + sectionId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

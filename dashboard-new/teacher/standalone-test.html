@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standalone Navigation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: #f0f0f0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .main-content.expanded {
+            margin-left: -170px;
+        }
+        .nav-item {
+            margin-bottom: 10px;
+            list-style: none;
+        }
+        .nav-item a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 8px;
+        }
+        .nav-item.active a {
+            background: #ddd;
+            font-weight: bold;
+        }
+        .section {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        .section.active {
+            display: block;
+        }
+        button {
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        .debug-info {
+            margin-top: 30px;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <h2>Navigation</h2>
+            <button id="sidebar-toggle" onclick="toggleSidebar()">Toggle Sidebar</button>
+            <ul class="nav-links">
+                <li class="nav-item active">
+                    <a href="#" onclick="switchSection('section1'); return false;" data-section="section1">Section 1</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" onclick="switchSection('section2'); return false;" data-section="section2">Section 2</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" onclick="switchSection('section3'); return false;" data-section="section3">Section 3</a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="main-content" id="main-content">
+            <h1>Standalone Navigation Test</h1>
+            <p>This page tests basic navigation functionality with inline onclick handlers.</p>
+            
+            <div id="section1" class="section active">
+                <h2>Section 1</h2>
+                <p>This is the content of section 1.</p>
+                <button onclick="showDebugInfo()">Show Debug Info</button>
+            </div>
+            
+            <div id="section2" class="section">
+                <h2>Section 2</h2>
+                <p>This is the content of section 2.</p>
+            </div>
+            
+            <div id="section3" class="section">
+                <h2>Section 3</h2>
+                <p>This is the content of section 3.</p>
+            </div>
+            
+            <div class="debug-info" id="debug-info"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Directly defined functions
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var mainContent = document.getElementById('main-content');
+            
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            alert('Sidebar toggled!');
+            
+            try {
+                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+            } catch (e) {
+                console.error('LocalStorage error:', e);
+            }
+        }
+        
+        function switchSection(sectionId) {
+            // Update active nav item
+            var navItems = document.querySelectorAll('.nav-item');
+            for (var i = 0; i < navItems.length; i++) {
+                navItems[i].classList.remove('active');
+                if (navItems[i].querySelector('a').getAttribute('data-section') === sectionId) {
+                    navItems[i].classList.add('active');
+                }
+            }
+            
+            // Update active section
+            var sections = document.querySelectorAll('.section');
+            for (var j = 0; j < sections.length; j++) {
+                sections[j].classList.remove('active');
+            }
+            document.getElementById(sectionId).classList.add('active');
+            
+            alert('Switched to section: ' + sectionId);
+        }
+        
+        function showDebugInfo() {
+            var debugInfo = document.getElementById('debug-info');
+            var info = '';
+            
+            info += '<h3>Debug Information</h3>';
+            info += '<p>Browser: ' + navigator.userAgent + '</p>';
+            info += '<p>Window Size: ' + window.innerWidth + 'x' + window.innerHeight + '</p>';
+            info += '<p>Sidebar Toggle Element: ' + (document.getElementById('sidebar-toggle') ? 'Found' : 'Not Found') + '</p>';
+            info += '<p>Nav Links: ' + document.querySelectorAll('.nav-links a').length + ' found</p>';
+            info += '<p>Sections: ' + document.querySelectorAll('.section').length + ' found</p>';
+            
+            debugInfo.innerHTML = info;
+        }
+        
+        // Initialize
+        window.onload = function() {
+            // Check localStorage for sidebar state
+            try {
+                if (localStorage.getItem('sidebarCollapsed') === 'true') {
+                    document.getElementById('sidebar').classList.add('collapsed');
+                    document.getElementById('main-content').classList.add('expanded');
+                }
+            } catch (e) {
+                console.error('LocalStorage error:', e);
+            }
+        };
+    </script>
+</body>
+</html>

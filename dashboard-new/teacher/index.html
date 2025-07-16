@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProctorAI - Teacher Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="section-styles.css">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="../../img/logo.png" alt="ProctorAI Logo">
+                    <h2>ProctorAI</h2>
+                </div>
+                <button id="sidebar-toggle" class="sidebar-toggle" onclick="toggleSidebar(); return false;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="user-info">
+                    <img src="../../img/user-placeholder.png" alt="User">
+                    <div>
+                        <h4>Dr. Sarah Johnson</h4>
+                        <p>Computer Science</p>
+                    </div>
+                </div>
+                
+                <nav class="nav-menu">
+                    <ul class="nav-links">
+                        <li class="nav-item active">
+                            <a href="#" data-section="dashboard-section" onclick="switchSection('dashboard-section'); return false;">
+                                <i class="fas fa-home"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-section="create-quiz-section" onclick="switchSection('create-quiz-section'); return false;">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Create Quiz</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-section="quizzes-section" onclick="switchSection('quizzes-section'); return false;">
+                                <i class="fas fa-file-alt"></i>
+                                <span>My Quizzes</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-section="submissions-section" onclick="switchSection('submissions-section'); return false;">
+                                <i class="fas fa-inbox"></i>
+                                <span>Submissions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-section="analytics-section" onclick="switchSection('analytics-section'); return false;">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analytics</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-section="settings-section" onclick="switchSection('settings-section'); return false;">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item logout">
+                            <a href="../../index.html">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-container">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="top-bar-actions">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="user-info">
+                            <img src="../../img/user-placeholder.png" alt="User">
+                            <span class="name">Dr. Sarah Johnson</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="#settings" data-section="settings-section"><i class="fas fa-user"></i> Profile</a>
+                            <a href="#settings" data-section="settings-section"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="../../index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="dashboard-section active">
+                <div class="section-header">
+                    <h1>Dashboard</h1>
+                    <p class="subtitle">Welcome back, Dr. Johnson!</p>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>5</h3>
+                            <p>Active Quizzes</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>128</h3>
+                            <p>Total Students</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>24</h3>
+                            <p>Pending Submissions</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>82%</h3>
+                            <p>Average Score</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card upcoming-quizzes">
+                        <div class="card-header">
+                            <h3>Upcoming Quizzes</h3>
+                            <a href="#quizzes" data-section="quizzes-section" class="view-all">View All</a>
+                        </div>
+                        <div class="card-content">
+                            <div class="upcoming-quiz-item">
+                                <div class="quiz-info">
+                                    <h4>Computer Networks Mid-term</h4>
+                                    <p>CS-405 • 30 questions • 60 min</p>
+                                </div>
+                                <div class="quiz-date">
+                                    <p class="date">Jul 15, 2025</p>
+                                    <p class="time">10:00 AM</p>
+                                </div>
+                            </div>
+                            <div class="upcoming-quiz-item">
+                                <div class="quiz-info">
+                                    <h4>Software Engineering Quiz</h4>
+                                    <p>CS-402 • 20 questions • 40 min</p>
+                                </div>
+                                <div class="quiz-date">
+                                    <p class="date">Jul 18, 2025</p>
+                                    <p class="time">11:30 AM</p>
+                                </div>
+                            </div>
+                            <div class="upcoming-quiz-item">
+                                <div class="quiz-info">
+                                    <h4>Operating Systems Quiz</h4>
+                                    <p>CS-304 • 25 questions • 45 min</p>
+                                </div>
+                                <div class="quiz-date">
+                                    <p class="date">Jul 22, 2025</p>
+                                    <p class="time">09:00 AM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card recent-activity">
+                        <div class="card-header">
+                            <h3>Recent Activity</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="activity-item">
+                                <div class="activity-icon blue">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <h4>New Quiz Created</h4>
+                                    <p>You created "Data Structures Quiz"</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon green">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <h4>Submission Graded</h4>
+                                    <p>You graded Ali Ahmed's submission</p>
+                                    <span class="activity-time">3 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon orange">
+                                    <i class="fas fa-inbox"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <h4>New Submission</h4>
+                                    <p>Sara Khan submitted "Data Structures Quiz"</p>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon purple">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                                <div class="activity-info">
+                                    <h4>Quiz Updated</h4>
+                                    <p>You updated "Database Systems Final"</p>
+                                    <span class="activity-time">Yesterday</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-card performance-summary">
+                        <div class="card-header">
+                            <h3>Performance Summary</h3>
+                        </div>
+                        <div class="card-content">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Create Quiz Section -->
+            <section id="create-quiz-section" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Create Quiz</h1>
+                    <p class="subtitle">Design a new quiz for your students</p>
+                </div>
+                
+                <div class="create-quiz-container">
+                    <form id="quiz-form" class="quiz-form">
+                        <div class="form-group">
+                            <label for="quiz-title">Quiz Title*</label>
+                            <input type="text" id="quiz-title" placeholder="Enter quiz title" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course-select">Course*</label>
+                                <select id="course-select" required>
+                                    <option value="" disabled selected>Select course</option>
+                                    <option value="cs301">CS-301: Data Structures</option>
+                                    <option value="cs405">CS-405: Computer Networks</option>
+                                    <option value="cs402">CS-402: Software Engineering</option>
+                                    <option value="cs303">CS-303: Database Systems</option>
+                                    <option value="cs501">CS-501: Artificial Intelligence</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quiz-duration">Duration (minutes)*</label>
+                                <input type="number" id="quiz-duration" min="5" placeholder="Duration" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quiz-date">Date*</label>
+                                <input type="date" id="quiz-date" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="quiz-time">Time*</label>
+                                <input type="time" id="quiz-time" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quiz-description">Description</label>
+                            <textarea id="quiz-description" placeholder="Enter quiz description"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Proctoring Settings</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="camera-required" checked>
+                                    <label for="camera-required">Camera Required</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="prevent-tab-switching" checked>
+                                    <label for="prevent-tab-switching">Prevent Tab Switching</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="audio-monitoring">
+                                    <label for="audio-monitoring">Audio Monitoring</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="lock-navigation" checked>
+                                    <label for="lock-navigation">Lock Navigation</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="questions-section">
+                            <div class="section-header">
+                                <h2>Questions</h2>
+                                <button type="button" id="add-question" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Add Question
+                                </button>
+                            </div>
+                            
+                            <div id="questions-container" class="questions-container">
+                                <!-- Questions will be added here dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" id="save-draft" class="btn btn-secondary">Save as Draft</button>
+                            <button type="submit" class="btn btn-primary">Create Quiz</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            
+            <!-- Quizzes Section -->
+            <section id="quizzes-section" class="dashboard-section">
+                <div class="section-header">
+                    <h1>My Quizzes</h1>
+                    <p class="subtitle">Manage your quizzes</p>
+                </div>
+                
+                <div class="filter-container">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="scheduled">Scheduled</button>
+                        <button class="filter-btn" data-filter="draft">Draft</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search quizzes...">
+                    </div>
+                </div>
+                
+                <div class="quizzes-container">
+                    <!-- Quiz cards will be added here dynamically -->
+                </div>
+            </section>
+            
+            <!-- Submissions Section -->
+            <section id="submissions-section" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Submissions</h1>
+                    <p class="subtitle">Review and grade student submissions</p>
+                </div>
+                
+                <div class="filter-container">
+                    <div class="filter-select">
+                        <select id="quiz-filter">
+                            <option value="all">All Quizzes</option>
+                            <option value="ds">Data Structures Quiz</option>
+                            <option value="cn">Computer Networks Mid-term</option>
+                            <option value="se">Software Engineering Quiz</option>
+                            <option value="db">Database Systems Final</option>
+                            <option value="ai">Artificial Intelligence Quiz</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search submissions...">
+                    </div>
+                </div>
+                
+                <div class="submissions-table-container">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Quiz</th>
+                                <th>Submitted</th>
+                                <th>Duration</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Submission rows will be added here dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Analytics Section -->
+            <section id="analytics-section" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Analytics</h1>
+                    <p class="subtitle">View quiz performance and student engagement metrics</p>
+                </div>
+                
+                <div class="analytics-container">
+                    <!-- Analytics cards will be added here dynamically -->
+                </div>
+            </section>
+            
+            <!-- Settings Section -->
+            <section id="settings-section" class="dashboard-section">
+                <div class="section-header">
+                    <h1>Settings</h1>
+                    <p class="subtitle">Manage your account and preferences</p>
+                </div>
+                
+                <div class="settings-container">
+                    <div class="settings-tabs">
+                        <button class="tab-btn active" data-tab="profile-tab">Profile</button>
+                        <button class="tab-btn" data-tab="quiz-defaults-tab">Quiz Defaults</button>
+                        <button class="tab-btn" data-tab="notification-tab">Notifications</button>
+                        <button class="tab-btn" data-tab="security-tab">Security</button>
+                    </div>
+                    
+                    <div class="tab-content-container">
+                        <div id="profile-tab" class="tab-content active">
+                            <h2>Profile Information</h2>
+                            <form id="profile-form" class="settings-form">
+                                <div class="form-group">
+                                    <label for="profile-name">Full Name</label>
+                                    <input type="text" id="profile-name" name="name" value="Dr. Sarah Johnson">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-email">Email</label>
+                                    <input type="email" id="profile-email" name="email" value="sarah.johnson@university.edu">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-department">Department</label>
+                                    <input type="text" id="profile-department" name="department" value="Computer Science">
+                                </div>
+                                <div class="form-group">
+                                    <label for="profile-bio">Bio</label>
+                                    <textarea id="profile-bio" name="bio">Professor of Computer Science with 10+ years of teaching experience in algorithms, data structures, and artificial intelligence.</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                        
+                        <div id="quiz-defaults-tab" class="tab-content">
+                            <h2>Quiz Default Settings</h2>
+                            <form id="quiz-defaults-form" class="settings-form">
+                                <div class="form-group">
+                                    <label for="default-duration">Default Duration (minutes)</label>
+                                    <input type="number" id="default-duration" name="duration" value="45" min="5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="default-attempts">Maximum Attempts</label>
+                                    <input type="number" id="default-attempts" name="attempts" value="1" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label>Default Proctoring Settings</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="default-camera" name="camera" checked>
+                                            <label for="default-camera">Camera Required</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="default-tab" name="tab" checked>
+                                            <label for="default-tab">Prevent Tab Switching</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="default-audio" name="audio">
+                                            <label for="default-audio">Audio Monitoring</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="default-navigation" name="navigation" checked>
+                                            <label for="default-navigation">Lock Navigation</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Defaults</button>
+                            </form>
+                        </div>
+                        
+                        <div id="notification-tab" class="tab-content">
+                            <h2>Notification Preferences</h2>
+                            <form id="notification-settings-form" class="settings-form">
+                                <div class="form-group">
+                                    <label>Email Notifications</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notify-submission" name="submission" checked>
+                                            <label for="notify-submission">New Submissions</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notify-proctoring" name="proctoring" checked>
+                                            <label for="notify-proctoring">Proctoring Alerts</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="notify-reminder" name="reminder" checked>
+                                            <label for="notify-reminder">Quiz Reminders</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Dashboard Notifications</label>
+                                    <div class="checkbox-group">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="dashboard-submission" name="dashboard-submission" checked>
+                                            <label for="dashboard-submission">New Submissions</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="dashboard-proctoring" name="dashboard-proctoring" checked>
+                                            <label for="dashboard-proctoring">Proctoring Alerts</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="dashboard-reminder" name="dashboard-reminder" checked>
+                                            <label for="dashboard-reminder">Quiz Reminders</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Preferences</button>
+                            </form>
+                        </div>
+                        
+                        <div id="security-tab" class="tab-content">
+                            <h2>Security Settings</h2>
+                            <form id="security-form" class="settings-form">
+                                <div class="form-group">
+                                    <label for="current-password">Current Password</label>
+                                    <input type="password" id="current-password" name="current-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="new-password">New Password</label>
+                                    <input type="password" id="new-password" name="new-password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm-password">Confirm New Password</label>
+                                    <input type="password" id="confirm-password" name="confirm-password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Notification Template (Hidden) -->
+    <div class="notifications-container"></div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard-content.js"></script>
+    <script src="quiz-creation.js"></script>
+    <script>
+        // Function to toggle sidebar
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('main');
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+            
+            // Store sidebar state in localStorage
+            try {
+                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+            } catch (e) {
+                console.error('LocalStorage error:', e);
+            }
+        }
+        
+        // Function to switch between sections
+        function switchSection(sectionId) {
+            console.log('Switching to section:', sectionId);
+            
+            // Hide all sections
+            document.querySelectorAll('main > section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Update active state in navigation
+            document.querySelectorAll('.nav-links li').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find and activate the nav link
+            const navLink = document.querySelector(`.nav-links a[data-section="${sectionId}"]`);
+            if (navLink) {
+                navLink.parentElement.classList.add('active');
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for saved sidebar state
+            try {
+                const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                if (sidebarCollapsed) {
+                    document.querySelector('.sidebar').classList.add('collapsed');
+                    document.querySelector('main').classList.add('expanded');
+                }
+            } catch (e) {
+                console.error('LocalStorage error:', e);
+            }
+            
+            // Setup user dropdown toggle
+            const userDropdown = document.querySelector('.user-dropdown');
+            if (userDropdown) {
+                const dropdownToggle = userDropdown.querySelector('.dropdown-toggle');
+                const dropdownMenu = userDropdown.querySelector('.dropdown-menu');
+                
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('show');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
